@@ -1,40 +1,42 @@
-#!/bin/bash -x
+#!/bin/bash
+hcount=0
+tcount=0
+while [ $tcount -lt 21  ] && [ $hcount -lt 21 ]
+do
+if [ $((RANDOM%2)) -eq 1 ];then
+let hcount++
+else
+let tcount++
+fi
+done
 
-isHHH=0;
-isHHT=1;
-isHTH=2;
-isHTT=3;
-isTHH=4;
-isTHT=5;
-isTTH=6;
-isTTT=7;
 
-flipCheck=$((RANDOM%8))
+echo "head score::$hcount"
+echo "tail score::$tcount"
+if [ $hcount -gt $tcount ];then
+echo "Head wins total score is: $hcount"
+echo "Head wins by $(($hcount-$tcount)) points from Tail"
+elif [ $hcount -lt $tcount ];then
+echo "Tail wins total score is: $tcount"
+echo "Tail wins by $(($tcount-$hcount)) point from Head"
+fi
 
-case $flipCheck in
-	$isHHH)
-		result=HHH
-		;;
-	$isHHT)
-		result=HHT
-		;;
-        $isHTH)
-                result=HTH
-                ;;
-        $isHTT)
-                result=HTT
-                ;;
-        $isTHH)
-                result=THH
-                ;;
-        $isTHT)
-                result=THT
-                ;;
-        $isTTH)
-                result=TTH
-                ;;
-        $isTTT)
-                result=TTT
-                ;;
-esac
-echo $result "is the winner"
+
+if [ $hcount -eq $tcount ];then
+echo "its a tie match"
+while [ $tcount -lt $(($hcount+2)) ] && [ $hcount -lt $(($tcount+2)) ]
+do
+if [ $((RANDOM%2)) -eq 1 ];then
+let hcount++
+else
+let tcount++
+fi
+done
+fi
+
+
+if [ $hcount -eq 23 ];then
+echo "head score is $hcount and tail score is $tcount and difference of score is $(($hcount-$tcount))"
+elif [ $tcount -eq 23 ];then
+echo "head score is $hcount and tail score is $tcount and difference of score is $(($tcount-$hcount))"
+fi
